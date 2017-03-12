@@ -1,0 +1,26 @@
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_geohash;
+SELECT GeohashAsInt64(ST_GeomFromText('POINT(10 20)'), 7);
+   geohashasint64   
+--------------------
+ 864691128455135232
+(1 row)
+
+SELECT GeohashAsText(ST_GeomFromText('POINT(10 20)'), 7);
+ geohashastext 
+---------------
+ s0
+(1 row)
+
+SELECT GeohashAsInt64(ST_GeomFromText('LINESTRING(10 20, 30 40)'), 7);
+ geohashasint64 
+----------------
+               
+(1 row)
+
+SELECT GeohashAsText(ST_GeomFromText('LINESTRING(10 20, 30 40)'), 7);
+ geohashastext 
+---------------
+ 
+(1 row)
+

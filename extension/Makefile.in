@@ -1,0 +1,33 @@
+EXTENSION = @EXT_NAME@
+DATA_built = @EXT_NAME@--@PACKAGE_VERSION@.sql
+MODULE_big = @EXT_NAME@
+OBJS = geohash.o
+SHLIB_LINK = @POSTGIS_LIB@
+REGRESS = geohash_test
+REGRESS_OPTS = --temp-instance=installcheck-tmp
+EXTRA_DIST = \
+	geohash.c \
+	geohash.sql \
+	sql/geohash_test.sql \
+	expected/geohash_test.out
+
+PG_CONFIG = @PG_CONFIG@
+PG_CPPFLAGS = @POSTGIS_CFLAGS@
+PGXS = @PGXS@
+
+include @PGXS@
+
+@EXT_NAME@--@PACKAGE_VERSION@.sql: geohash.sql
+	echo "\echo Use \"CREATE EXTENSION @EXT_NAME@\" to load this file. \quit" > $@
+	echo >> $@
+	cat $< >> $@
+
+distdir:
+	for f in $(EXTRA_DIST) ; \
+	do \
+		mkdir -p `dirname $(distdir)/$$f` ; \
+		cp $$f `dirname $(distdir)/$$f` ; \
+	done
+
+check-syntax:
+	gcc $(CFLAGS) $(CPPFLAGS) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)

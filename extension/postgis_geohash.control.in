@@ -1,0 +1,6 @@
+# @PACKAGE_NAME@ extension
+comment = 'Per bit geohash computation'
+default_version = '@PACKAGE_VERSION@'
+requires = postgis
+module_pathname = '$libdir/@EXT_NAME@'
+relocatable = false

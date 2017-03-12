@@ -1,0 +1,8 @@
+*.so
+
+/Makefile
+/postgis_geohash--*.sql
+/postgis_geohash.control
+/log
+/regression.*
+/results
