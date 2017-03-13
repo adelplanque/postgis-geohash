@@ -1,6 +1,6 @@
 language: c
 
-before-install:
+before_install:
   - sudo apt-get install postgresql-server-dev
 
 install:
