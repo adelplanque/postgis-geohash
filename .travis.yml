@@ -1,9 +1,5 @@
 language: c
 
-before-install:
-  - sudo apt-get autoconf
-  - sudo apt-get automake
-
 install:
   - autoreconf --install
   - configure
