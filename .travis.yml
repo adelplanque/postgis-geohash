@@ -11,11 +11,10 @@ before_install:
   - sudo apt-get install liblwgeom-dev
   - ls /usr
   - ls /usr/include
-  - echo $CFLAGS
 
 install:
   - autoreconf --install
-  - ./configure
+  - ./configure CFLAGS=-I/usr/include
   - make
   - make check
   - make install
