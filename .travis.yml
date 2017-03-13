@@ -1,5 +1,10 @@
 language: c
 
+git:
+  deep: 1
+
+dist: trusty
+
 before_install:
   - sudo apt-get install coreutils
   - sudo apt-get install postgresql-server-dev-9.5
