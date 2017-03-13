@@ -9,6 +9,7 @@ before_install:
   - sudo apt-get install realpath
   - sudo apt-get install postgresql-server-dev-9.5
   - sudo apt-get install liblwgeom-dev
+  - sudo apt-get install libproj-dev
   - ls /usr
   - ls /usr/include
 
