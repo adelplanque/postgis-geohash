@@ -23,7 +23,9 @@ int64 mk_geohash(const POINT2D *p, int deep) {
 
     int64 geohash = 0;
     int64 mask = (uint64) 1 << 29;
-    for (int i = 0; i < 30; i++) {
+    int i;
+
+    for (i = 0; i < 30; i++) {
         geohash = geohash << 1;
         if (i < x_res) {
             geohash |= (x & mask) ? 1 : 0;
@@ -78,6 +80,7 @@ Datum GeohashAsText(PG_FUNCTION_ARGS) {
     int64 geohash_int;
     text* result;
     size_t result_size;
+    int i;
 
 	if (deep < 0 || lwgeom_is_empty(lwgeom) || lwgeom->type != POINTTYPE) {
 		PG_RETURN_NULL();
@@ -97,7 +100,7 @@ Datum GeohashAsText(PG_FUNCTION_ARGS) {
 
     geohash_int = mk_geohash(&p, deep);
 
-    for (int i = 0; i < digits; i++) {
+    for (i = 0; i < digits; i++) {
         int shift = (11 - i) * 5;
         int idx = (geohash_int >> shift) & 0x1F;
         geohash[i] = base32[idx];
