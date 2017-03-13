@@ -1,6 +1,7 @@
 language: c
 
 before_install:
+  - sudo apt-get coreutils
   - sudo apt-get install postgresql-server-dev-9.5
   - wget -O /tmp/postgis.tar.gz https://github.com/postgis/postgis/archive/2.3.0.tar.gz
   - tar -xvf /tmp/postgis.tar.gz
