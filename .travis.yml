@@ -1,7 +1,7 @@
 language: c
 
 before_install:
-  - sudo apt-get install postgresql-server-dev
+  - sudo apt-get install postgresql-server-dev-9.5
 
 install:
   - autoreconf --install
