@@ -2,7 +2,7 @@ language: c
 
 install:
   - autoreconf --install
-  - configure
+  - ./configure
   - make
   - make check
   - make install
