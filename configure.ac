@@ -57,11 +57,11 @@ PG_PKGLIBDIR="$(${PG_CONFIG} --pkglibdir)"
 
 dnl liblwgeom
 
-AC_CHECK_HEADERS(
-    [liblwgeom.h],
-    [],
-    [AC_MSG_ERROR([Unable to find liblwgeom.h])]
-)
+dnl AC_CHECK_HEADERS(
+dnl     [liblwgeom.h],
+dnl     [],
+dnl     [AC_MSG_ERROR([Unable to find liblwgeom.h])]
+dnl )
 
 AC_CHECK_LIB(
     [lwgeom],
