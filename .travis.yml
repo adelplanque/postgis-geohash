@@ -7,7 +7,7 @@ before_install:
   - sudo apt-get install realpath
   - sudo apt-get install postgresql-server-dev-9.5
   - wget -O /tmp/postgis-2.3.0.tar.gz https://github.com/postgis/postgis/archive/2.3.0.tar.gz
-  - cd tmp && tar -xzf postgis-2.3.0.tar.gz
+  - cd /tmp && tar -xzf postgis-2.3.0.tar.gz
 
 install:
   - autoreconf --install
