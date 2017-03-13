@@ -55,15 +55,12 @@ AC_SUBST([PG_LIB])
 PG_SHAREDIR="$(${PG_CONFIG} --sharedir)"
 PG_PKGLIBDIR="$(${PG_CONFIG} --pkglibdir)"
 
-dnl Postgis
+dnl liblwgeom
 
-AC_ARG_WITH(
-    [postgis],
-    [AS_HELP_STRING([--with-postgis=DIR], [Path to postgis sources])],
-    [POSTGIS_SOURCES=$(realpath $withval)
-     POSTGIS_CFLAGS=-I${POSTGIS_SOURCES}/libpgcommon
-     AC_SUBST([POSTGIS_CFLAGS])],
-    [AC_MSG_ERROR([You should specify path to postgis sources])]
+AC_CHECK_HEADERS(
+    [liblwgeom.h],
+    [],
+    [AC_MSG_ERROR([Unable to find liblwgeom.h])]
 )
 
 AC_CHECK_LIB(
@@ -73,6 +70,8 @@ AC_CHECK_LIB(
      AC_SUBST([POSTGIS_LIB])],
     [AC_MSG_ERROR([Unable to find liblwgeom])]
 )
+
+dnl Generate output
 
 AC_CONFIG_FILES([
     Makefile
@@ -98,7 +97,6 @@ AC_MSG_RESULT([  Geohash configure complete])
 AC_MSG_RESULT()
 AC_MSG_RESULT([  PostgreSQL config:    ${PG_CONFIG}])
 AC_MSG_RESULT([  PostgreSQL version:   ${PG_FULL_VERSION}])
-AC_MSG_RESULT([  Postgis sources:      ${POSTGIS_SOURCES}])
 
 dnl Explain our prefix policy if necessary.
 

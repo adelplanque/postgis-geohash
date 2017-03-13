@@ -1,6 +1,8 @@
 #include <postgres.h>
 #include <fmgr.h>
-#include <lwgeom_pg.h>
+#include <liblwgeom.h>
+
+#define PG_GETARG_GSERIALIZED_P(varno) ((GSERIALIZED *)PG_DETOAST_DATUM(PG_GETARG_DATUM(varno)))
 
 PG_MODULE_MAGIC;
 

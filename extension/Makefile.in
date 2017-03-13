@@ -12,7 +12,6 @@ EXTRA_DIST = \
 	expected/geohash_test.out
 
 PG_CONFIG = @PG_CONFIG@
-PG_CPPFLAGS = @POSTGIS_CFLAGS@
 PGXS = @PGXS@
 
 include @PGXS@
