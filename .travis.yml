@@ -3,10 +3,8 @@ language: c
 git:
   deep: 1
 
-dist: trusty
-
 before_install:
-  - sudo apt-get install coreutils
+  - sudo apt-get install realpath
   - sudo apt-get install postgresql-server-dev-9.5
   - wget -O /tmp/postgis.tar.gz https://github.com/postgis/postgis/archive/2.3.0.tar.gz
   - tar -xvf /tmp/postgis.tar.gz
