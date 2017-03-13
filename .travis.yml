@@ -1,0 +1,6 @@
+install:
+  - configure
+  - make
+  - make check
+  - make install
+  - make installcheck
