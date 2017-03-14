@@ -25,7 +25,7 @@ Postgresql = testing.postgresql.PostgresqlFactory(
 )
 
 
-class TestLoad(unittest.TestCase):
+class TestGeohash(unittest.TestCase):
 
     def setUp(self):
         self.postgres = Postgresql()
@@ -43,6 +43,7 @@ class TestLoad(unittest.TestCase):
         self.con.commit()
 
     def execute_and_fetchall(self, sql):
+        print("SQL: %s" % sql)
         try:
             self.cursor.execute(sql)
             return self.cursor.fetchall()
@@ -58,6 +59,10 @@ class TestLoad(unittest.TestCase):
         self.postgres.stop()
 
     def test_geohash_int64(self):
+        sql = "ST_GeomFromText('POINT(10 20)')"
+        self.execute_and_fetchall(sql)
+
+        data = self.execute_and_fetchall(sql)
         geom = "ST_GeomFromText('POINT(10 20)')"
         sql = "SELECT GeohashAsInt64(%s, 7)" % geom
         data = self.execute_and_fetchall(sql)
