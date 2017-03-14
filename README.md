@@ -14,7 +14,7 @@ It use 64 bits integer for store up to 60 bits geohash (12 digits in base32 comm
 ### From repository sources ###
 
     autoreconf --install
-    ./configure --with-postgis=path/to/postgis/sources
+    ./configure
     make
     [make check]
     make install
@@ -23,7 +23,7 @@ It use 64 bits integer for store up to 60 bits geohash (12 digits in base32 comm
 ### From source archive ###
 
     tar -xzf geohash-x.y.z.tar.gz
-    ./configure --with-postgis=path/to/postgis/sources
+    ./configure
     make
     [make check]
     make install
