@@ -3,6 +3,8 @@ language: c
 git:
   deep: 1
 
+sudo: required
+
 env:
   - PYTHONUSERBASE=${HOME}/local
 
