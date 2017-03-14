@@ -22,7 +22,7 @@ install:
   - autoreconf --install
   - ./configure CFLAGS=-I/usr/include
   - make
-  - ldd extension/postgis-geohash.so
+  - ldd extension/postgis_geohash.so
   - ldd /usr/lib/postgresql/9.5/lib/postgis-*.so
   - python nosetests.py
   - make check
