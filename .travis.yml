@@ -22,8 +22,8 @@ install:
   - autoreconf --install
   - ./configure CFLAGS=-I/usr/include
   - make
-  - lddtree extension/postgis-geohash.so
-  - lggtree /usr/lib/postgresql/9.5/lib/postgis-*.so
+  - ldd extension/postgis-geohash.so
+  - ldd /usr/lib/postgresql/9.5/lib/postgis-*.so
   - python nosetests.py
   - make check
   - make install
