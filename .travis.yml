@@ -3,6 +3,9 @@ language: c
 git:
   deep: 1
 
+env:
+  - PYTHONUSERBASE=${HOME}/local
+
 before_install:
   - pwd
   - echo $HOME
@@ -10,6 +13,8 @@ before_install:
   - sudo apt-get install postgresql-server-dev-9.5
   - sudo apt-get install liblwgeom-dev
   - sudo apt-get install libproj-dev
+  - sudo apt-get install python-nose python-pip
+  - pip install testing.postgresql
   - ls /usr
   - ls /usr/include
 
@@ -17,6 +22,7 @@ install:
   - autoreconf --install
   - ./configure CFLAGS=-I/usr/include
   - make
+  - python nosetests.py
   - make check
   - make install
   - make installcheck
