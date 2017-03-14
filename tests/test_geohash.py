@@ -13,7 +13,7 @@ geohash_sql = os.path.join(top_srcdir, 'extension', 'geohash.sql')
 def postgresql_init(postgresql):
     con = psycopg2.connect(**postgresql.dsn())
     cursor = con.cursor()
-    cursor.execute('CREATE EXTENSION postgis;')
+    cursor.execute("CREATE EXTENSION postgis;")
     con.commit()
     cursor.close()
     con.close()
@@ -25,22 +25,15 @@ Postgresql = testing.postgresql.PostgresqlFactory(
 )
 
 
-class TestGeohash(unittest.TestCase):
+class PostgresqlMixIn(object):
+    """
+    Provide postgresql testing environnement.
+    """
 
     def setUp(self):
         self.postgres = Postgresql()
         self.con = psycopg2.connect(**self.postgres.dsn())
         self.cursor = self.con.cursor()
-        self.load_geohash_extension()
-
-    def load_geohash_extension(self):
-        print("Load geohash")
-        with open(geohash_sql, 'r') as infile:
-            sql = infile.read()
-        sql = sql.replace('$libdir/postgis_geohash.so', geohash_so)
-        print(sql)
-        self.cursor.execute(sql)
-        self.con.commit()
 
     def execute_and_fetchall(self, sql):
         print("SQL: %s" % sql)
@@ -52,6 +45,41 @@ class TestGeohash(unittest.TestCase):
                                    'Postgresql.log'), 'r') as infile:
                 print(infile.read())
             raise
+
+    def tearDown(self):
+        self.cursor.close()
+        self.con.close()
+        self.postgres.stop()
+
+
+class TestPostgisVersion(PostgresqlMixIn, unittest.TestCase):
+    """
+    Simple test to print postgis version.
+    """
+
+    def test_postgis_version(self):
+        sql = "SELECT PostGIS_full_version();"
+        data = self.execute_and_fetchall(sql)
+        print("Postgis: %s" % str(data))
+
+
+class TestGeohash(PostgresqlMixIn, unittest.TestCase):
+    """
+    Test Geohash functions.
+    """
+
+    def setUp(self):
+        super(TestGeohash, self).setUp()
+        self.load_geohash_extension()
+
+    def load_geohash_extension(self):
+        print("Load geohash")
+        with open(geohash_sql, 'r') as infile:
+            sql = infile.read()
+        sql = sql.replace('$libdir/postgis_geohash.so', geohash_so)
+        print(sql)
+        self.cursor.execute(sql)
+        self.con.commit()
 
     def tearDown(self):
         self.cursor.close()

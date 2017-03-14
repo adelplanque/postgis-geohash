@@ -7,7 +7,9 @@ It use 64 bits integer for store up to 60 bits geohash (12 digits in base32 comm
 
 ## Install ##
 
-Build of Postgis-Geohash need Postgis sources.
+### Dependences ###
+
+* `liblwgeom`: Part of Postgis usually distribute as separate package, be careful to use the same version of liblwgeom when compiling postgis and this extension.
 
 ### From repository sources ###
 
