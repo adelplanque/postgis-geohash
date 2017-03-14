@@ -16,13 +16,14 @@ before_install:
   - sudo apt-get install python-nose python-pip python-psycopg2
   - mkdir -p ${PYTHONUSERBASE}
   - pip install --user testing.postgresql
-  - ls /usr
-  - ls /usr/include
+  - ls -l /usr/lib/liblwgeom*
 
 install:
   - autoreconf --install
   - ./configure CFLAGS=-I/usr/include
   - make
+  - lddtree extension/postgis-geohash.so
+  - lggtree /usr/lib/postgresql/9.5/lib/postgis-*.so
   - python nosetests.py
   - make check
   - make install
