@@ -59,7 +59,7 @@ class TestGeohash(unittest.TestCase):
         self.postgres.stop()
 
     def test_geohash_int64(self):
-        sql = "ST_GeomFromText('POINT(10 20)')"
+        sql = "SELECT ST_GeomFromText('POINT(10 20)')"
         self.execute_and_fetchall(sql)
 
         data = self.execute_and_fetchall(sql)
