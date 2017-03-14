@@ -14,7 +14,8 @@ before_install:
   - sudo apt-get install liblwgeom-dev
   - sudo apt-get install libproj-dev
   - sudo apt-get install python-nose python-pip
-  - pip install testing.postgresql
+  - mkdir -p ${PYTHONUSERBASE}
+  - pip install --user testing.postgresql
   - ls /usr
   - ls /usr/include
 
