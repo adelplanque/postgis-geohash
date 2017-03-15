@@ -16,6 +16,8 @@ before_install:
   - sudo apt-get install python-nose python-pip python-psycopg2
   - mkdir -p ${PYTHONUSERBASE}
   - pip install --user testing.postgresql
+  - autoconf --version
+  - automake --version
 
 install:
   - autoreconf --install
