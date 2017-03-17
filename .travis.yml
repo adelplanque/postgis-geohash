@@ -6,7 +6,7 @@ git:
 env:
   - PYTHONUSERBASE=${HOME}/local
 
-before_install:
+install:
   - pwd
   - echo $HOME
   - sudo apt-get install realpath
@@ -18,16 +18,17 @@ before_install:
   - pip install --user testing.postgresql
   - autoconf --version
   - automake --version
-
-install:
   - autoreconf --install
   - ./configure
-  - cat Makefile
+  - make dist
+  - mkdir build
+  - cd build && tar -xzf `find .. -name "postgis-geohash-*.tar.gz"`
+
+script:
+  - pwd
+  - ./configure
   - make
   - python nosetests.py
   - make check
   - sudo make install
   - make installcheck
-
-after_failure:
-  - cat *.log
