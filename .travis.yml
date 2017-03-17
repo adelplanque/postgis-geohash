@@ -1,7 +1,7 @@
 language: c
 
 git:
-  deep: 1
+  depth: 1
 
 env:
   - PYTHONUSERBASE=${HOME}/local
