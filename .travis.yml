@@ -21,9 +21,8 @@ install:
   - autoreconf --install
   - ./configure
   - make dist
-  - mkdir build
-  - cd build
-  - tar -xzf `find .. -name "postgis-geohash-*.tar.gz"`
+  - tar -xzf `find -name "postgis-geohash-*.*.*.tar.gz"`
+  - cd `find -name "postgis-geohash-*.*.*"`
   - pwd
 
 script:
