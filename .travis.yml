@@ -22,10 +22,11 @@ install:
   - ./configure
   - make dist
   - mkdir build
-  - cd build && tar -xzf `find .. -name "postgis-geohash-*.tar.gz"`
+  - cd build
+  - tar -xzf `find .. -name "postgis-geohash-*.tar.gz"`
+  - pwd
 
 script:
-  - pwd
   - ./configure
   - make
   - python nosetests.py
