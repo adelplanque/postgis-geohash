@@ -14,7 +14,7 @@ dnl Compilateurs
 AC_PROG_CC
 
 dnl Autre programmes
-AM_PROG_AR
+dnl add m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 
 dnl Types
 
@@ -57,11 +57,11 @@ PG_PKGLIBDIR="$(${PG_CONFIG} --pkglibdir)"
 
 dnl liblwgeom
 
-dnl AC_CHECK_HEADERS(
-dnl     [liblwgeom.h],
-dnl     [],
-dnl     [AC_MSG_ERROR([Unable to find liblwgeom.h])]
-dnl )
+AC_CHECK_HEADERS(
+    [liblwgeom.h],
+    [],
+    [AC_MSG_ERROR([Unable to find liblwgeom.h])]
+)
 
 AC_CHECK_LIB(
     [lwgeom],
@@ -77,14 +77,7 @@ AC_CONFIG_FILES([
     Makefile
     extension/Makefile
     extension/postgis_geohash.control
-    m4/Makefile
-    nosetests.py
-    tests/Makefile
     ])
-
-dnl Python
-
-PC_INIT([2.7], [3.5.99])
 
 dnl Generate output files
 

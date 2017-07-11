@@ -13,9 +13,6 @@ install:
   - sudo apt-get remove postgresql-*
   - sudo apt-get install postgresql-9.5 postgresql-server-dev-9.5 postgresql-9.5-postgis-2.3
   - sudo apt-get install liblwgeom-dev libproj-dev
-  - sudo apt-get install python-nose python-pip python-psycopg2
-  - mkdir -p ${PYTHONUSERBASE}
-  - pip install --user testing.postgresql
   - autoconf --version
   - automake --version
   - autoreconf --install
@@ -28,7 +25,5 @@ install:
 script:
   - ./configure
   - make
-  - python nosetests.py
-  - make check
   - sudo make install
   - make installcheck

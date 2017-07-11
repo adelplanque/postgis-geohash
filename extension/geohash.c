@@ -6,6 +6,7 @@
 
 PG_MODULE_MAGIC;
 
+/** Table de conversion base32 */
 static const char *base32 = "0123456789bcdefghjkmnpqrstuvwxyz";
 int64 mk_geohash(const POINT2D *p, int deep);
 
@@ -42,6 +43,9 @@ int64 mk_geohash(const POINT2D *p, int deep) {
 
 
 PG_FUNCTION_INFO_V1(GeohashAsInt64);
+/**
+ * Calcul d'un geohah sur 60 bits et retourne le résultat sous forme entière (int64)
+ */
 Datum GeohashAsInt64(PG_FUNCTION_ARGS) {
     GSERIALIZED *geom = PG_GETARG_GSERIALIZED_P(0);
     LWGEOM *lwgeom = lwgeom_from_gserialized(geom);
@@ -70,6 +74,9 @@ Datum GeohashAsInt64(PG_FUNCTION_ARGS) {
 
 
 PG_FUNCTION_INFO_V1(GeohashAsText);
+/**
+ * Calcul d'un geohah sur 60 bits et retourne le résultat en base32 sur le nombre minimal de caractères.
+ */
 Datum GeohashAsText(PG_FUNCTION_ARGS) {
     GSERIALIZED *geom = PG_GETARG_GSERIALIZED_P(0);
     LWGEOM *lwgeom = lwgeom_from_gserialized(geom);

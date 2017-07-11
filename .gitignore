@@ -1,7 +1,6 @@
 *.la
 *.lo
 *.o
-*.pyc
 *~
 .deps
 .libs
@@ -17,7 +16,6 @@
 /config.status
 /configure
 /libtool
-/nosetests.py
 /stamp-h1
 /test-suite.log
 /tests.log

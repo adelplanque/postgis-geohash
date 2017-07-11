@@ -16,7 +16,6 @@ It use 64 bits integer for store up to 60 bits geohash (12 digits in base32 comm
     autoreconf --install
     ./configure
     make
-    [make check]
     make install
     [make installcheck]
 
@@ -25,7 +24,6 @@ It use 64 bits integer for store up to 60 bits geohash (12 digits in base32 comm
     tar -xzf geohash-x.y.z.tar.gz
     ./configure
     make
-    [make check]
     make install
     [make installcheck]
 
@@ -61,4 +59,4 @@ Right zeros are truncated.
 
 If `geom` is a POINT:
 
-    GeohastAsText(geom, digits * 5) == ST_Geohash(geom, digits)
+    GeohashAsText(geom, digits * 5) == ST_Geohash(geom, digits)
