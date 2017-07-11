@@ -19,6 +19,8 @@ install:
   - ./configure
   - make dist
   - tar -xzf `find -name "postgis-geohash-*.*.*.tar.gz"`
+  - rm `find -name "postgis-geohash-*.*.*.tar.gz"`
+  - ls -l
   - cd `find -name "postgis-geohash-*.*.*"`
   - pwd
 
