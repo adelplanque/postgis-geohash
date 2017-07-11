@@ -4,7 +4,6 @@ EXT_NAME=postgis_geohash
 AC_SUBST([EXT_NAME])
 
 AC_CONFIG_AUX_DIR([build-aux])
-AC_CONFIG_MACRO_DIR([m4])
 
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
