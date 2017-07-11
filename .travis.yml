@@ -10,12 +10,13 @@ install:
   - pwd
   - echo $HOME
   - sudo apt-get install realpath
-  - sudo apt-get remove postgresql-*
+  - sudo apt-get remove postgresql-* libproj0
   - sudo apt-get install postgresql-9.5 postgresql-server-dev-9.5 postgresql-9.5-postgis-2.3
-  - sudo apt-get install liblwgeom-dev
+  - sudo apt-get install liblwgeom-dev libproj-dev
   - autoconf --version
   - automake --version
   - autoreconf --install
+  - export CFLAGS="-I /usr/include"
   - ./configure
   - make dist
   - tar -xzf `find -name "postgis-geohash-*.*.*.tar.gz"`
