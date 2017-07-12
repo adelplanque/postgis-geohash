@@ -1,5 +1,5 @@
 AC_PREREQ([2.13])
-AC_INIT([Postgis-Geohash], [0.1.0])
+AC_INIT([Postgis-Geohash], [0.1.1])
 EXT_NAME=postgis_geohash
 AC_SUBST([EXT_NAME])
 

@@ -9,6 +9,7 @@ PG_MODULE_MAGIC;
 /** Table de conversion base32 */
 static const char *base32 = "0123456789bcdefghjkmnpqrstuvwxyz";
 int64 mk_geohash(const POINT2D *p, int deep);
+int64 mk_reverse_geohash(const POINT2D *p, int deep);
 
 
 /**
@@ -42,9 +43,42 @@ int64 mk_geohash(const POINT2D *p, int deep) {
 }
 
 
+/**
+ * Calcul d'un geohash sur 60 bits avec une profondeur donnée
+ */
+int64 mk_reverse_geohash(const POINT2D *p, int deep) {
+    int x_res = deep / 2 + deep % 2;
+    int y_res = deep / 2;
+
+    int64 fact = (uint64) 1 << 30;
+    int64 x = (unsigned int) floor((p->x + 180.0) / 360.0 * fact);
+    int64 y = (unsigned int) floor((p->y + 90.0) / 180.0 * fact);
+
+    int64 geohash = 0;
+    int64 mask = (uint64) 1 << 29;
+    int64 h_bit = (uint64) 1 << 59;
+    int i;
+
+    for (i = 0; i < 30; i++) {
+        geohash = geohash >> 1;
+        if (i < x_res) {
+            geohash |= (x & mask) ? h_bit : 0;
+        }
+        geohash = geohash >> 1;
+        if (i < y_res) {
+            geohash |= (y & mask) ? h_bit : 0;
+        }
+        mask = mask >> 1;
+    }
+
+    return geohash;
+}
+
+
 PG_FUNCTION_INFO_V1(GeohashAsInt64);
 /**
- * Calcul d'un geohah sur 60 bits et retourne le résultat sous forme entière (int64)
+ * Calcul d'un geohash sur 60 bits et retourne le résultat sous forme entière (int64)
+ * Le bit de poids 2^59 contient la première division du dmaine
  */
 Datum GeohashAsInt64(PG_FUNCTION_ARGS) {
     GSERIALIZED *geom = PG_GETARG_GSERIALIZED_P(0);
@@ -68,6 +102,38 @@ Datum GeohashAsInt64(PG_FUNCTION_ARGS) {
     }
 
     geohash = mk_geohash(&p, deep);
+
+    PG_RETURN_INT64(geohash);
+}
+
+
+PG_FUNCTION_INFO_V1(ReverseGeohashAsInt64);
+/**
+ * Calcul d'un geohash sur 60 bits et retourne le résultat sous forme entière (int64)
+ * Le bit de poids 2^0 contient la première division du dmaine
+ */
+Datum ReverseGeohashAsInt64(PG_FUNCTION_ARGS) {
+    GSERIALIZED *geom = PG_GETARG_GSERIALIZED_P(0);
+    LWGEOM *lwgeom = lwgeom_from_gserialized(geom);
+    int deep = PG_GETARG_INT32(1);
+    POINT2D p;
+    int64 geohash;
+
+	if (deep < 0 || lwgeom_is_empty(lwgeom) || lwgeom->type != POINTTYPE) {
+		PG_RETURN_NULL();
+    }
+
+    if (deep > 60) {
+        deep = 60;
+    }
+
+    getPoint2d_p(((LWPOINT*) lwgeom)->point, 0, &p);
+
+    if (p.x < -180 || p.x > 180 || p.y < -90 || p.y > 90) {
+		PG_RETURN_NULL();
+    }
+
+    geohash = mk_reverse_geohash(&p, deep);
 
     PG_RETURN_INT64(geohash);
 }
