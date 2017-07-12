@@ -37,7 +37,7 @@ It use 64 bits integer for store up to 60 bits geohash (12 digits in base32 comm
 
 ### Fonctions ###
 
-#### GoeohashAsInt64 ####
+#### GeohashAsInt64 ####
 
     FUNCTION GeohashAsInt64(geom geometry, deep int4 DEFAULT 64)
     RETURNS INT8
@@ -45,6 +45,16 @@ It use 64 bits integer for store up to 60 bits geohash (12 digits in base32 comm
 If `geometry` is a POINT geometry, compute geohash, return `NULL` value for others geometries.
 Geohash is encoding over bits 2^59 to 2^(59-deep+1).
 Bit 2^59 is for the first split according to latitude, bit 2^58 for the first split according to longitude.
+
+Over bits are set to 0.
+
+#### ReverseGeohashAsInt64 ####
+
+    FUNCTION ReverseGeohashAsInt64(geom geometry, deep int4 DEFAULT 64)
+    RETURNS INT8
+
+Like `GeohashAsInt64` but bits are in reverse order.
+Bit 2^0 is for the first split according to latitude, bit 2^1 for the first split according to longitude, ...
 
 Over bits are set to 0.
 
