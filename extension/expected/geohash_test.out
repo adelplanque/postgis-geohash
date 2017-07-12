@@ -12,6 +12,18 @@ SELECT GeohashAsText(ST_GeomFromText('POINT(10 20)'), 7);
  s0
 (1 row)
 
+SELECT ReverseGeohashAsInt64(ST_GeomFromText('POINT(10 20)'), 7);
+ reversegeohashasint64 
+-----------------------
+                     3
+(1 row)
+
+SELECT ReverseGeohashAsInt64(ST_GeomFromText('POINT(40 60)'), 8);
+ reversegeohashasint64 
+-----------------------
+                   203
+(1 row)
+
 SELECT GeohashAsInt64(ST_GeomFromText('LINESTRING(10 20, 30 40)'), 7);
  geohashasint64 
 ----------------
@@ -22,5 +34,11 @@ SELECT GeohashAsText(ST_GeomFromText('LINESTRING(10 20, 30 40)'), 7);
  geohashastext 
 ---------------
  
+(1 row)
+
+SELECT ReverseGeohashAsInt64(ST_GeomFromText('LINESTRING(10 20, 30 40)'), 7);
+ reversegeohashasint64 
+-----------------------
+                      
 (1 row)
 
