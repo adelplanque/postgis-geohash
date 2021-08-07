@@ -1,0 +1,6 @@
+[submodule "ext/postgis"]
+	path = ext/postgis
+	url = https://github.com/postgis/postgis.git
+[submodule "ext/proj"]
+	path = ext/proj
+	url = https://github.com/OSGeo/PROJ.git

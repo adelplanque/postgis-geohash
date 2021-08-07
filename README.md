@@ -70,3 +70,19 @@ Right zeros are truncated.
 If `geom` is a POINT:
 
     GeohashAsText(geom, digits * 5) == ST_Geohash(geom, digits)
+
+
+## License ##
+
+### Postgis-Geohash ###
+
+Postgis-Geohash may be distributed and/or modified under the conditions
+of the GNU General Public License, either version 3 or (at your option) any
+later version. Please refer to the COPYING file for details.
+
+### Embedded dependencies ###
+
+* Postgis: https://postgis.net/ -- GPL License
+* Proj4: http://proj.osgeo.org -- X/MIT License
+
+More details in respective folders.
