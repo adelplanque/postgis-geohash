@@ -1,0 +1,11 @@
+{
+  global:
+    Pg_magic_func;
+    GeohashAsInt64;
+    pg_finfo_GeohashAsInt64;
+    ReverseGeohashAsInt64;
+    pg_finfo_ReverseGeohashAsInt64;
+    GeohashAsText;
+    pg_finfo_GeohashAsText;
+  local: *;
+};

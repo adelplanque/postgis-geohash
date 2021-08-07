@@ -1,1 +1,7 @@
-SUBDIRS = extension
+ACLOCAL_AMFLAGS = -I m4
+SUBDIRS = ext extension
+
+EXTRA_DIST = \
+	COPYING \
+	LICENSE.md \
+	README.md

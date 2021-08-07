@@ -16,6 +16,8 @@
 /config.status
 /configure
 /libtool
+/m4
+/postgis_geohash-*.tar.gz
 /stamp-h1
 /test-suite.log
 /tests.log

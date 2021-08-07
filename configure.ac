@@ -1,22 +1,46 @@
-AC_PREREQ([2.13])
-AC_INIT([Postgis-Geohash], [0.1.1])
-EXT_NAME=postgis_geohash
-AC_SUBST([EXT_NAME])
+dnl **********************************************************************
+dnl *
+dnl * Postgis-Geohash
+dnl * Copyright 2017, 2021 Alain Delplanque
+dnl *
+dnl * This program is free software: you can redistribute it and/or modify
+dnl * it under the terms of the GNU General Public License as published by
+dnl * the Free Software Foundation, either version 3 of the License, or
+dnl * (at your option) any later version.
+dnl *
+dnl * This program is distributed in the hope that it will be useful,
+dnl * but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl * GNU General Public License for more details.
+dnl *
+dnl * You should have received a copy of the GNU General Public License
+dnl * along with this program.  If not, see <https://www.gnu.org/licenses/>
+dnl *
+dnl **********************************************************************
 
+AC_PREREQ([2.69])
+AC_INIT([postgis_geohash], [0.1.1])
+
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 
 AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+AC_CONFIG_HEADERS([config.h ext/postgis/postgis_config.h])
+AM_INIT_AUTOMAKE([foreign subdir-objects -Wall -Werror])
 
-dnl Compilateurs
 AC_PROG_CC
 
-dnl Autre programmes
-dnl add m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
+dnl We need gcc-ar and gcc-ranlib in order to use LTO
+AC_ARG_VAR([AR], [AR command (default is gcc-ar)])
+AC_CHECK_TOOL([AR], [gcc-ar])
+AC_ARG_VAR([RANLIB], [RANLIB command (default is gcc-ranlib)])
+AC_CHECK_TOOL([RANLIB], [gcc-ranlib])
+
+dnl LIBTOOL
+AM_PROG_AR
+LT_INIT
 
 dnl Types
-
 AC_TYPE_INT8_T
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
@@ -47,36 +71,31 @@ AS_IF(
 )
 AC_SUBST(PGXS)
 
-PG_BIN="$(${PG_CONFIG} --bindir)"
-AC_SUBST([PG_BIN])
-PG_LIB="$(${PG_CONFIG} --libdir)"
-AC_SUBST([PG_LIB])
-PG_SHAREDIR="$(${PG_CONFIG} --sharedir)"
 PG_PKGLIBDIR="$(${PG_CONFIG} --pkglibdir)"
+PG_SHAREDIR="$(${PG_CONFIG} --sharedir)"
 
-dnl liblwgeom
 
-AC_CHECK_HEADERS(
-    [liblwgeom.h],
-    [],
-    [AC_MSG_ERROR([Unable to find liblwgeom.h])]
-)
+dnl ===========================================================================
+dnl Minimal postgis setup in order to build liblwgeom
+dnl ===========================================================================
 
-AC_CHECK_LIB(
-    [lwgeom],
-    [lwgeom_from_gserialized],
-    [POSTGIS_LIB="-llwgeom"
-     AC_SUBST([POSTGIS_LIB])],
-    [AC_MSG_ERROR([Unable to find liblwgeom])]
-)
+AC_DEFINE_UNQUOTED([POSTGIS_GEOS_VERSION], [39], [Embeded GEOS version])
+AC_DEFINE_UNQUOTED([POSTGIS_PROJ_VERSION], [81], [Embeded PROJ version])
+SRID_MAX=999999
+SRID_USR_MAX=998999
+AC_SUBST([SRID_MAX])
+AC_SUBST([SRID_USR_MAX])
 
 dnl Generate output
 
 AC_CONFIG_FILES([
     Makefile
+    ext/Makefile
+    ext/postgis/liblwgeom/liblwgeom.h
     extension/Makefile
     extension/postgis_geohash.control
     ])
+
 
 dnl Generate output files
 
@@ -99,7 +118,7 @@ AS_IF([test "$prefix" != "NONE"],
   AC_MSG_RESULT([  WARNING: You have set the --prefix to '$prefix'. But we mostly    ])
   AC_MSG_RESULT([  ignore the --prefix. For your info, using the values determined from ])
   AC_MSG_RESULT([  $PG_CONFIG we will be installing:   ])
-  AC_MSG_RESULT([    * geohash shared library in ${PG_PKGLIBDIR} ])
-  AC_MSG_RESULT([    * geohash SQL files in ${PG_SHAREDIR}/extension ])
+  AC_MSG_RESULT([    * postgis_geohash shared library in ${PG_PKGLIBDIR} ])
+  AC_MSG_RESULT([    * postgis_geohash SQL files in ${PG_SHAREDIR}/extension ])
   AC_MSG_RESULT([------------------------------------------------------------------------])
 ])

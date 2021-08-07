@@ -1,22 +1,29 @@
-EXTENSION = @EXT_NAME@
-DATA_built = @EXT_NAME@--@PACKAGE_VERSION@.sql
-MODULE_big = @EXT_NAME@
+subdir = extension
+
+EXTENSION = @PACKAGE_NAME@
+DATA_built = @PACKAGE_NAME@--@PACKAGE_VERSION@.sql
+MODULE_big = @PACKAGE_NAME@
 OBJS = geohash.o
-SHLIB_LINK = @POSTGIS_LIB@
+SHLIB_LINK = -L../ext/.libs -llwgeom -lm
 REGRESS = geohash_test
 REGRESS_OPTS = --temp-instance=installcheck-tmp
 EXTRA_DIST = \
+	expected/geohash_test.out \
 	geohash.c \
 	geohash.sql \
 	sql/geohash_test.sql \
-	expected/geohash_test.out
+	version.script
 
-PG_CONFIG = @PG_CONFIG@
 PGXS = @PGXS@
+PG_CONFIG = @PG_CONFIG@
+PG_LDFLAGS = -Wl,--gc-sections -Wl,-flto -Wl,--version-script=version.script
+
+PG_CFLAGS = -I../ext/postgis/liblwgeom -I../ext/proj/src -flto
+PG_CPPFLAGS = -I../ext/postgis/liblwgeom -I../ext/proj/src
 
 include @PGXS@
 
-@EXT_NAME@--@PACKAGE_VERSION@.sql: geohash.sql
+@PACKAGE_NAME@--@PACKAGE_VERSION@.sql: geohash.sql
 	echo "\echo Use \"CREATE EXTENSION @EXT_NAME@\" to load this file. \quit" > $@
 	echo >> $@
 	cat $< >> $@
@@ -30,3 +37,11 @@ distdir:
 
 check-syntax:
 	gcc $(CFLAGS) $(CPPFLAGS) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
+
+Makefile: Makefile.in
+	cd @top_builddir@ && @SHELL@ ./config.status $(subdir)/$@
+
+$(shlib): ../ext/liblwgeom.la version.script
+
+../ext/liblwgeom.la:
+	make -C ../ext liblwgeom.la
