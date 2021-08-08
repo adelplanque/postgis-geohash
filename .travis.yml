@@ -10,7 +10,9 @@ install:
   - pwd
   - echo $HOME
   - sudo apt-get install realpath
-  - sudo apt-get remove postgresql-* libproj0
+  - sudo apt list --installed
+  - sudo apt search postgresql
+  - sudo apt-get remove postgresql-*
   - sudo apt-get install postgresql-9.5 postgresql-server-dev-9.5 postgresql-9.5-postgis-2.3
   - sudo apt-get install liblwgeom-dev libproj-dev
   - autoconf --version
