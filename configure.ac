@@ -19,7 +19,7 @@ dnl *
 dnl **********************************************************************
 
 AC_PREREQ([2.69])
-AC_INIT([postgis_geohash], [0.1.1])
+AC_INIT([postgis-geohash], [0.1.1])
 
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -94,7 +94,10 @@ AC_CONFIG_FILES([
     ext/postgis/liblwgeom/liblwgeom.h
     extension/Makefile
     extension/postgis_geohash.control
-    ])
+    tests/install-check.sh
+    ],
+    [chmod +x tests/install-check.sh]
+)
 
 
 dnl Generate output files

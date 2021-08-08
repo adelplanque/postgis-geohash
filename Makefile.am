@@ -3,5 +3,4 @@ SUBDIRS = ext extension
 
 EXTRA_DIST = \
 	COPYING \
-	LICENSE.md \
 	README.md

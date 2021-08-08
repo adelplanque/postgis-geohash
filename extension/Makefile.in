@@ -1,8 +1,8 @@
 subdir = extension
 
-EXTENSION = @PACKAGE_NAME@
-DATA_built = @PACKAGE_NAME@--@PACKAGE_VERSION@.sql
-MODULE_big = @PACKAGE_NAME@
+EXTENSION = $(shell echo "@PACKAGE_NAME@" | tr '-' '_')
+DATA_built = $(EXTENSION)--@PACKAGE_VERSION@.sql
+MODULE_big = $(EXTENSION)
 OBJS = geohash.o
 SHLIB_LINK = ../ext/.libs/liblwgeom.a -lm
 REGRESS = geohash_test
@@ -23,7 +23,7 @@ PG_CPPFLAGS = -I../ext/postgis/liblwgeom -I../ext/proj/src
 
 include @PGXS@
 
-@PACKAGE_NAME@--@PACKAGE_VERSION@.sql: geohash.sql
+$(EXTENSION)--@PACKAGE_VERSION@.sql: geohash.sql
 	echo "\echo Use \"CREATE EXTENSION @EXT_NAME@\" to load this file. \quit" > $@
 	echo >> $@
 	cat $< >> $@
