@@ -94,7 +94,10 @@ AC_CONFIG_FILES([
     ext/postgis/liblwgeom/liblwgeom.h
     extension/Makefile
     extension/postgis_geohash.control
-    ])
+    tests/install-check.sh
+    ],
+    [chmod +x tests/install-check.sh]
+)
 
 
 dnl Generate output files
