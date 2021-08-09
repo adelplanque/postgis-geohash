@@ -4,7 +4,7 @@ EXTENSION = @PACKAGE_NAME@
 DATA_built = @PACKAGE_NAME@--@PACKAGE_VERSION@.sql
 MODULE_big = @PACKAGE_NAME@
 OBJS = geohash.o
-SHLIB_LINK = -L../ext/.libs -llwgeom -lm
+SHLIB_LINK = ../ext/.libs/liblwgeom.a -lm
 REGRESS = geohash_test
 REGRESS_OPTS = --temp-instance=installcheck-tmp
 EXTRA_DIST = \
