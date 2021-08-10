@@ -7,7 +7,8 @@ git:
   depth: 1
 
 env:
-  - PYTHONUSERBASE=${HOME}/local
+  - PG_VERSION=9.5 POSTGIS_VERSION=2.5
+  - PG_VERSION=9.5 POSTGIS_VERSION=3.0
 
 install:
   - autoreconf --install
