@@ -2,9 +2,9 @@
 
 set -xe
 
-pg_version=$1
-postgis_version=$2
-tag=${pg_version}-${postgis_version}-alpine
+postgis_image=$1
+llvm=${2:-llvm-dev clang}
+tag=${postgis_image}-alpine
 
 version=@PACKAGE_VERSION@
 package_full_name=@PACKAGE_NAME@-@PACKAGE_VERSION@
@@ -17,9 +17,8 @@ cat <<EOF > Dockerfile
 FROM postgis/postgis:${tag}
 
 RUN addgroup -S geohash && adduser -S geohash -G geohash
-RUN apk update
-RUN apk upgrade
-RUN apk add gcc llvm clang make musl-dev sudo
+RUN apk update && apk upgrade
+RUN apk add gcc ${llvm} make musl-dev sudo
 RUN echo "geohash ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 COPY ${package_full_name}.tar.gz /
@@ -41,6 +40,8 @@ docker rm ${container} 2>&1 /dev/null | true
 docker create --name ${container} -ti ${image}
 
 docker start ${container}
+trap "docker stop ${container}" EXIT
+
 docker exec ${container} tar -xzf /${package_full_name}.tar.gz
 docker exec ${container} sh -c "cd ${package_full_name} && ./configure"
 docker exec ${container} sh -c "cd ${package_full_name} && make"
@@ -57,4 +58,3 @@ then
            "for f in ${package_full_name}/extension/results/*; do echo $f; cat $f; done"
     exit 1
 fi
-docker stop ${container}

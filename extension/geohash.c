@@ -21,6 +21,9 @@
 #include <math.h>
 #include <postgres.h>
 #include <fmgr.h>
+#if PG_MAJORVERSION_NUM >= 16
+#include <varatt.h>
+#endif
 #include "../ext/postgis/liblwgeom/liblwgeom.h"
 
 #define PG_GETARG_GSERIALIZED_P(varno) ((GSERIALIZED *)PG_DETOAST_DATUM(PG_GETARG_DATUM(varno)))
